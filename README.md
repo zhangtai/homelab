@@ -15,3 +15,7 @@ cd ~/GitHub/homelab && doppler setup
 ## Proxmox
 
 `ansible/playbooks/proxmox`
+
+## Dev Server
+
+`doppler run --command='ansible-playbook dev-server.yml'`
