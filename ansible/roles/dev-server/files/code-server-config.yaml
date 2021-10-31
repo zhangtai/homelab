@@ -1,0 +1,3 @@
+bind-addr: "0.0.0.0:{{CODE_SERVER_PORT}}"
+auth: password
+password: "{{CODE_SERVER_PASSWORD}}"

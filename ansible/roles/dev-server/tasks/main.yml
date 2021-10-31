@@ -1,0 +1,166 @@
+---
+- name: Check existence of snap
+  shell: which snap
+  register: which_snap_result
+  ignore_errors: true
+
+- name: Remove snap package
+  become: true
+  community.general.snap:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - lxd
+    - core18
+    - snapd
+  when: which_snap_result.rc == 0
+
+- name: Purge snap
+  become: true
+  apt:
+    name: snapd
+    state: absent
+    purge: yes
+
+- name: Remove snap files
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /snap
+    - /var/snap
+    - /var/lib/snapd
+
+- name: Install apt packages
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 7200
+    pkg:
+      - git
+      - zsh
+      - zip
+      - unzip
+      - vim
+      - curl
+      - unzip
+      - python3-venv
+      - python3-pip
+      - nfs-common
+      - cloudflared
+
+- name: Check existence of default ssh priv key
+  stat:
+    path: ~/.ssh/id_rsa
+  register: ssh_priv_key
+
+- name: Generate ssh keys
+  shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
+  when: not ssh_priv_key.stat.exists
+
+- name: Create config folders
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - ~/.config/pip
+    - ~/.config/code-server
+    - ~/.cloudflared
+
+- name: Copy code-server configuration
+  template:
+    src: files/code-server-config.yaml
+    dest: ~/.config/code-server/config.yaml
+    mode: '0644'
+
+- name: Create cloudflare config folder
+  file:
+    path: /etc/cloudflared
+    state: directory
+    mode: '755'
+
+- name: Copy cloudflared sys config
+  become: true
+  template:
+    src: files/cloudflared-config.yaml
+    dest: /etc/cloudflared/config.yml
+    mode: '0755'
+
+- name: Copy cloudflared usr config
+  template:
+    src: files/cloudflare-creds.json
+    dest: "/home/tying/.cloudflared/{{ TUNNEL_ID }}.json"
+
+- name: Install pip tools
+  pip:
+    name:
+      - ansible
+      - docker-compose
+
+- name: Check code-server service status
+  become: true
+  shell: "systemctl status code-server@{{ ansible_user }}"
+  register: code_server_status
+  ignore_errors: yes
+
+- name: Check code-server version
+  become: true
+  shell: code-server --version | cut -d ' ' -f 1
+  register: code_server_version
+  ignore_errors: yes
+
+- name: Print code-server version
+  debug:
+    var: code_server_version
+
+- name: Install code-server
+  block:
+    - name: Download code-server installer
+      get_url:
+        url: https://code-server.dev/install.sh
+        dest: /tmp/install.sh
+        mode: '0755'
+    - name: Install code-server with script
+      shell: /tmp/install.sh
+  when: code_server_status.rc == 4
+
+- name: Start code-server
+  become: yes
+  service:
+    name: "code-server@{{ ansible_user }}"
+    enabled: yes
+    state: started
+
+- name: Start cloudflared
+  become: yes
+  service:
+    name: cloudflared
+    enabled: yes
+    state: started
+
+- name: Clone dotfiles
+  ansible.builtin.git:
+    repo: "https://{{ 'zhangtai' | urlencode }}:{{ GITHUB_TOKEN | urlencode }}@github.com/zhangtai/dotfiles.git"
+    dest: "~/.dotfiles"
+    force: yes
+
+- name: Remove exists zshrc file
+  file:
+    path: "~/.zshrc"
+    state: absent
+
+- name: Create zshrc local change file
+  file:
+    path: "~/.zshrc.local.sh"
+    state: touch
+
+- name: Link zshrc from dotfiles
+  file:
+    src: "~/.dotfiles/.zshrc"
+    dest: "~/.zshrc"
+    state: link
+
+- name: Init zshrc
+  shell: "zsh ~/.zshrc"

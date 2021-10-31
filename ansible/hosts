@@ -4,3 +4,15 @@
 [pve:vars]
 ansible_user=root
 ansible_python_interpreter=/usr/bin/python3
+
+[dev]
+dev10 ansible_host=192.168.3.10
+
+[dev:vars]
+ansible_user=tying
+
+[rancher]
+192.168.3.11
+
+[rancher:vars]
+ansible_user=rancher

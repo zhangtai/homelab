@@ -1,0 +1,6 @@
+{
+    "AccountTag":"{{ ACCOUNT_TAG }}",
+    "TunnelSecret":"{{ TUNNEL_SECRET }}",
+    "TunnelID":"{{ TUNNEL_ID }}",
+    "TunnelName":"{{ TUNNEL_NAME }}"
+}

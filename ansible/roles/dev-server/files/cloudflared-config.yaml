@@ -1,0 +1,15 @@
+tunnel: "{{ TUNNEL_ID }}"
+credentials-file: /home/tying/.cloudflared/{{ TUNNEL_ID }}.json
+
+ingress:
+  - hostname: "{{ DOMAIN_RANCHER }}"
+    service: "{{ TARGET_RANCHER }}"
+    noTLSVerify: true
+  - hostname: "{{ DOMAIN_CODE_SERVER }}"
+    service: "{{ TARGET_CODE_SERVER }}"
+  - hostname: "{{ DOMAIN_PVE }}"
+    service: "{{ TARGET_PVE }}"
+    originRequest:
+      connectTimeout: 10s
+      noTLSVerify: true
+  - service: http_status:404
