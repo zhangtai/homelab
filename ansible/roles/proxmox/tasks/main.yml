@@ -1,0 +1,57 @@
+---
+- name: Remove pve-enterprise.list file
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/pve-enterprise.list
+
+- name: Install apt packages
+  apt:
+    update_cache: yes
+    pkg:
+      - git
+      - zip
+      - unzip
+      - vim
+      - curl
+      - unzip
+
+- name: Check existence of default ssh priv key
+  stat:
+    path: ~/.ssh/id_rsa
+  register: ssh_priv_key
+
+- name: Check existence of ubuntu cloud image
+  stat:
+    path: "{{ ubuntu_cloud_image_path }}"
+  register: ubuntu_cloud_image
+
+- name: Generate ssh keys
+  shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
+  when: not ssh_priv_key.stat.exists
+
+- name: Download focal-server-cloudimg-amd64.img
+  get_url:
+    url: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+    dest: "{{ ubuntu_cloud_image_path }}"
+  when: not ubuntu_cloud_image.stat.exists
+
+- name: Verify create_vm_with_id existence
+  shell: 'qm status {{ create_vm_with_id }}'
+  register: vm_id_existence
+  ignore_errors: yes
+
+- name: Create template from cloud-image
+  shell: |
+    qm create {{ create_vm_with_id }} --memory 2048 --net0 virtio,bridge=vmbr0
+    qm importdisk {{ create_vm_with_id }} {{ ubuntu_cloud_image_path }} "{{ local-lvm }}"
+
+    qm set {{ create_vm_with_id }} --scsihw virtio-scsi-pci \
+        --scsi0 "{{ local-lvm }}:vm-{{ create_vm_with_id }}-disk-0" \
+        --ide2 "{{ local-lvm }}:cloudinit" \
+        --boot c --bootdisk scsi0 \
+        --serial0 socket --vga serial0
+    qm resize {{ create_vm_with_id }} scsi0 +5G
+    qm template {{ create_vm_with_id }}
+  when: vm_id_existence.rc == 2

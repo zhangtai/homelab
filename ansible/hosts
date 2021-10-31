@@ -1,0 +1,6 @@
+[pve]
+192.168.3.5
+
+[pve:vars]
+ansible_user=root
+ansible_python_interpreter=/usr/bin/python3
