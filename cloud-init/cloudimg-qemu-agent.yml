@@ -1,0 +1,24 @@
+#cloud-config
+hostname: ubuntu
+groups:
+  - docker
+users:
+  - default
+  - name: ubuntu
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/zsh
+    groups: docker
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDM4+YbE8SvYeRsNsczEC7zjX5AOqIEY5qmux9nG3jEf8eXWK9sx9CCTP8Mlfj8CTfmpdQOjBAQgFAH9QpCNhARI4fn6mLloTYubefOh1yk+YuIr/ttajXRC6d9Upp1evn0TYX34a7+HbKMQfqJnVTSGoB7F+HJ63N+tnXXMfWRVzTMVOIxEG03GOfFnhYCyl0X5/eHBhHB60yGXLNLf7JKIhd4tA79N2PfEghigrlYqq4cPhEKVod8+rpf6Rs5x2qJA8MvrKNtBBC4/3CQoKcn/ougtsVBk66eep3qmoXyE2NCJbHTY1vmxcB9fNXgQuBlsY1NUaxL49c/Uv6VDG6j6d+44+CXCdTf9c88S/zJi591T6/H75Orxs68VikAOHhx+ib9nm3J4eW4LDZV1mDCm4dhiGSaAL0XzrztyOeU4KqjhGXxpexm9zgiiAtsBUfnKhj1Z+InzwDca10cE4LaMOlx4JpewzdZTSMQXqWSs+OS7mx+zxOEEIDEN94S26Rl842g5wI2S2HX6qj4j/vvOS4oKEIPs9fxs1GdCWxhbi5G75188h7ThAPTZIUOZGnmRFiS3IhC2iEdG0xnpn8+69b/IiElUfzDHpcX/HwzyXbUxoUJ+7o7+rk23uljr9jLFqUuVb4Yv9tYg5IGlskvcF2N5jzsIc2E/y2y2oW8fw== tai@Ubuntu2004
+package_upgrade: true
+package_reboot_if_required: false
+packages:
+  - qemu-guest-agent
+  - git
+  - zsh
+  - zip
+  - unzip
+  - curl
+  - wget
+runcmd:
+  - [ systemctl, enable, --now, qemu-guest-agent ]
