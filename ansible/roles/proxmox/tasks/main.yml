@@ -17,6 +17,15 @@
       - curl
       - unzip
 
+- name: Check if cloud-init template exists
+  ansible.builtin.shell: qm status 998
+  register: ci_template_exists
+  ignore_errors: yes
+
+- name: cloud-init
+  ansible.builtin.include_tasks: create-cloud-init-template.yml
+  when: ci_template_exists.rc == 2
+
 - name: Check existence of default ssh priv key
   stat:
     path: ~/.ssh/id_rsa

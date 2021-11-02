@@ -1,0 +1,26 @@
+---
+- name: Copy cloud-init file
+  ansible.builtin.copy:
+    src: files/ubuntu-cloudimg-basic.yml
+    dest: /var/lib/vz/snippets/ubuntu-cloudimg-basic.yml
+    mode: '0644'
+
+- name: Create and start cloudimg vm
+  ansible.builtin.shell: |
+    qm clone 999 998 --name ubuntu-cloudimg-basic
+    qm set 998 --ipconfig0 ip=dhcp --agent 1
+    qm set 998 --cicustom "user=local:snippets/cloudimg-qemu-agent.yml"
+    qm start 998
+
+- name: Verify qemu guest agent running status
+  ansible.builtin.shell: qm agent 998 ping
+  register: qemu_agent_status
+  until: qemu_agent_status.rc == 0
+  retries: 20
+  delay: 15
+
+- name: Stop the agent once finished installing
+  ansible.builtin.shell: qm stop 998
+
+- name: Convert vm to template
+  ansible.builtin.shell: qm template 998
