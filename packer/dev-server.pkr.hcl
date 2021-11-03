@@ -29,8 +29,9 @@ source "proxmox-clone" "dev-server" {
     ssh_private_key_file = "/home/tai/.ssh/id_rsa"
     node = "pve"
     insecure_skip_tls_verify = true
-    clone_vm = "cloudimg-qemu-agent"
+    clone_vm = "ubuntu-2004-stage1-v1"
     template_name = "dev-server-21.11.1"
+    vm_id = 3001
     os = "l26"
     cores = 2
     sockets = 1
