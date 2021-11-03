@@ -2,7 +2,13 @@
 - name: Provisioning Proxmox
   hosts: pve
   vars:
-    create_vm_with_id: 999
+    ubuntu_2004_stage_0_id: 2000
+    ubuntu_2004_stage_1_id: 2001
+    ubuntu_2004_stage_1_name: ubuntu-2004-stage1-v1
+    stage_1_cloudinit_file: ubuntu_2004_stage_1_cloudinit.yml
+    ubuntu_cloudimg_link: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
     ubuntu_cloud_image_path: /var/lib/vz/images/focal-server-cloudimg-amd64.img
+    force_download_cloudimg: no
+    force_create_stage_0: no
   roles:
-  - role: 'roles/proxmox'
+    - role: 'roles/proxmox'

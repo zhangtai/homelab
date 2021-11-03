@@ -17,50 +17,40 @@
       - curl
       - unzip
 
-- name: Check if cloud-init template exists
-  ansible.builtin.shell: qm status 998
-  register: ci_template_exists
-  ignore_errors: yes
-
-- name: cloud-init
-  ansible.builtin.include_tasks: create-cloud-init-template.yml
-  when: ci_template_exists.rc == 2
-
 - name: Check existence of default ssh priv key
   stat:
     path: ~/.ssh/id_rsa
   register: ssh_priv_key
+
+- name: Generate ssh keys
+  shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
+  when: not ssh_priv_key.stat.exists
 
 - name: Check existence of ubuntu cloud image
   stat:
     path: "{{ ubuntu_cloud_image_path }}"
   register: ubuntu_cloud_image
 
-- name: Generate ssh keys
-  shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
-  when: not ssh_priv_key.stat.exists
-
 - name: Download focal-server-cloudimg-amd64.img
   get_url:
-    url: https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img
+    url: "{{ ubuntu_cloudimg_link }}"
     dest: "{{ ubuntu_cloud_image_path }}"
-  when: not ubuntu_cloud_image.stat.exists
+  when: not ubuntu_cloud_image.stat.exists or force_download_cloudimg
 
-- name: Verify create_vm_with_id existence
-  shell: 'qm status {{ create_vm_with_id }}'
-  register: vm_id_existence
+- name: Verify if stage 0 template exists
+  shell: 'qm status {{ ubuntu_2004_stage_0_id }}'
+  register: vm_id_exists
   ignore_errors: yes
 
-- name: Create template from cloud-image
-  shell: |
-    qm create {{ create_vm_with_id }} --memory 2048 --net0 virtio,bridge=vmbr0
-    qm importdisk {{ create_vm_with_id }} {{ ubuntu_cloud_image_path }} "{{ local-lvm }}"
+- name: Create stage 0 template from cloud-image
+  ansible.builtin.include_tasks: create_stage_0_image.yml
+  when: vm_id_exists.rc == 2 or force_create_stage_0
 
-    qm set {{ create_vm_with_id }} --scsihw virtio-scsi-pci \
-        --scsi0 "{{ local-lvm }}:vm-{{ create_vm_with_id }}-disk-0" \
-        --ide2 "{{ local-lvm }}:cloudinit" \
-        --boot c --bootdisk scsi0 \
-        --serial0 socket --vga serial0
-    qm resize {{ create_vm_with_id }} scsi0 +5G
-    qm template {{ create_vm_with_id }}
-  when: vm_id_existence.rc == 2
+- name: Check if stage 1 template exists
+  ansible.builtin.shell: qm status {{ ubuntu_2004_stage_1_id }}
+  register: ci_template_exists
+  ignore_errors: yes
+
+- name: Create stage 1 template
+  ansible.builtin.include_tasks: create_stage_1_image.yml
+  when: ci_template_exists.rc == 2

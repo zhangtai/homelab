@@ -1,0 +1,31 @@
+---
+- name: Copy cloud-init file to pve
+  ansible.builtin.copy:
+    src: files/{{ stage_1_cloudinit_file }}
+    dest: /var/lib/vz/snippets/{{ stage_1_cloudinit_file }}
+    mode: '0644'
+
+- name: Clone stage 1 vm from stage 0 template
+  ansible.builtin.shell: qm clone {{ ubuntu_2004_stage_0_id }} {{ ubuntu_2004_stage_1_id }} --name {{ ubuntu_2004_stage_1_name }}
+
+- name: Configure stage 1 vm
+  ansible.builtin.shell: |
+    qm set {{ ubuntu_2004_stage_1_id }} \
+    --ipconfig0 ip=dhcp --agent 1 \
+    --cicustom "user=local:snippets/{{ stage_1_cloudinit_file }}"
+
+- name: Start stage 1 vm
+  ansible.builtin.shell: qm start {{ ubuntu_2004_stage_1_id }}
+
+- name: Verify qemu guest agent running status
+  ansible.builtin.shell: qm agent {{ ubuntu_2004_stage_1_id }} ping
+  register: qemu_agent_status
+  until: qemu_agent_status.rc == 0
+  retries: 30
+  delay: 15
+
+- name: Stop the agent once finished installing
+  ansible.builtin.shell: qm stop {{ ubuntu_2004_stage_1_id }}
+
+- name: Convert vm to template
+  ansible.builtin.shell: qm template {{ ubuntu_2004_stage_1_id }}

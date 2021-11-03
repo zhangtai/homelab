@@ -4,7 +4,7 @@ My Homelab, with some provisioning files...
 
 ## Quick steps
 
-1. `ansible/playbooks/proxmox`: Install basic tools on pve, download Ubuntu cloudimg file and create basic template
+1. `cd ansible && ansible-playbook proxmox.yml`: Install basic tools on pve, download Ubuntu cloudimg file and create basic template
 
 ## Setup Doppler
 
