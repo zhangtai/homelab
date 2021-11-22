@@ -11,6 +11,11 @@ users:
     ssh_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDM4+YbE8SvYeRsNsczEC7zjX5AOqIEY5qmux9nG3jEf8eXWK9sx9CCTP8Mlfj8CTfmpdQOjBAQgFAH9QpCNhARI4fn6mLloTYubefOh1yk+YuIr/ttajXRC6d9Upp1evn0TYX34a7+HbKMQfqJnVTSGoB7F+HJ63N+tnXXMfWRVzTMVOIxEG03GOfFnhYCyl0X5/eHBhHB60yGXLNLf7JKIhd4tA79N2PfEghigrlYqq4cPhEKVod8+rpf6Rs5x2qJA8MvrKNtBBC4/3CQoKcn/ougtsVBk66eep3qmoXyE2NCJbHTY1vmxcB9fNXgQuBlsY1NUaxL49c/Uv6VDG6j6d+44+CXCdTf9c88S/zJi591T6/H75Orxs68VikAOHhx+ib9nm3J4eW4LDZV1mDCm4dhiGSaAL0XzrztyOeU4KqjhGXxpexm9zgiiAtsBUfnKhj1Z+InzwDca10cE4LaMOlx4JpewzdZTSMQXqWSs+OS7mx+zxOEEIDEN94S26Rl842g5wI2S2HX6qj4j/vvOS4oKEIPs9fxs1GdCWxhbi5G75188h7ThAPTZIUOZGnmRFiS3IhC2iEdG0xnpn8+69b/IiElUfzDHpcX/HwzyXbUxoUJ+7o7+rk23uljr9jLFqUuVb4Yv9tYg5IGlskvcF2N5jzsIc2E/y2y2oW8fw== tai@Ubuntu2004
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXiMs/CDEjPX7djACcECWL9zTbNTGyhto5nHMW15kTMzyjTgPETRdSD1Xh+Y1lj4IDsvUZK3Wr6gBjA5kFIldcqB7WtyESWm2hOk1yOhmTJUqeRjdIZB4yWd8YJxLqQxwD0Rglay+fq0LFGm/TaXvgAHl0HctkRmd+yXV6nru1vO0q6k2ASkAn18KC8SPXgZrDzx9jjA9sfyuYb7B+OHCL/o0WJ/7i+pIVYOBoE3ucjReRznY0E/P22IB+owtwq1E0XENjmzgSKNfmZC38n5uFmOGJDfJFTJhHMzEi/15ym+rWSy4BjjOxV4WIE1b9u/OPdgf8HvfpOcaI1X5KK7t7l4aSYFj2pInAu0gfwC51ImaEflc2GuWWrLGUrwp9eYHEazv++SedP5aCR9qm65fcxsbCyACCYWbAOpxcmUb9D5wMR9A17aDJFO6Yk6/5LLGlm/s1J2b96X8m4y0vNpi8vI6W+KrnUaDazj2UMbtathQsciNIMM9udrUZnE5XLm9JI+rW+8qkc+aXwmSQY0xSREtRgDDfF8828eeeibX+PlA1lbZixbPKp6NyPY7Rw3YszSwr259fB1Ib9aCEqNN+bJlhu/fJm71VHFaMCa6gUCqpu9c3+vcI1qkFkCw3W0IifMVNlI50DDtXN8abwRGziENx913bzZPjhjmN3GIkYQ== taizhang@Tais-MBP.lan
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 package_upgrade: true
 package_reboot_if_required: false
 packages:
@@ -21,5 +26,7 @@ packages:
   - unzip
   - curl
   - wget
+  - docker-ce
+  - docker-ce-cli
 runcmd:
   - [ systemctl, enable, --now, qemu-guest-agent ]
