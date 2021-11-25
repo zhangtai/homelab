@@ -1,0 +1,11 @@
+OperationsCenter:
+  Name: cjoc
+  HostName: rancher.lan
+  Protocol: https
+Agents:
+  Enabled: true
+  SeparateNamespace:
+    Enabled: true
+    Create: true
+Persistence:
+  StorageClass: local-path
