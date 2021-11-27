@@ -28,9 +28,27 @@ cd ~/GitHub/homelab && doppler setup
 ansible-playbook proxmox.yml
 ```
 
-## Dev Server
+### Dev Server
 
 `doppler run --command='ansible-playbook dev-server.yml'`
+
+### New Container
+
+```shell
+pct create 4001 local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz \
+  --cpulimit 2 \
+  --memory 1024 \
+  --storage local-lvm \
+  --rootfs local-lvm:20 \
+  --ostype ubuntu \
+  --ssh-public-keys /root/pubKeys/mbp.key \
+  --start 1 \
+  --hostname postgres \
+  --unprivileged 1 \
+  --net0 name=eth0,bridge=vmbr0,firewall=1,gw=192.168.3.1,ip=192.168.3.41/24,type=veth
+
+pct destroy 4001 --force
+```
 
 ## Kubernetes
 
