@@ -37,27 +37,6 @@ doppler run --command='terraform apply'
 doppler run --command='ansible-playbook dev-server.yml'
 ```
 
-### New Container
-
-```shell
-export PCT_ID=4001
-export PCT_HOST=postgres
-export PCT_IP=192.168.3.41
-pct create ${PCT_ID} local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz \
-  --cpulimit 4 \
-  --memory 2048 \
-  --storage local-lvm \
-  --rootfs local-lvm:50 \
-  --ostype ubuntu \
-  --ssh-public-keys /root/pubKeys/mbp.key \
-  --start 1 \
-  --hostname ${PCT_HOST} \
-  --unprivileged 1 \
-  --net0 name=eth0,bridge=vmbr0,firewall=1,gw=192.168.3.1,ip=${PCT_IP}/24,type=veth
-
-pct destroy 4001 --force
-```
-
 ## Kubernetes
 
 ### Setup nodes
