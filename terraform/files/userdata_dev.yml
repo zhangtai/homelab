@@ -1,0 +1,6 @@
+#cloud-config
+hostname: ${hostname}
+package_upgrade: true
+packages:
+  - python3-venv
+  - python3-pip

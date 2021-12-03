@@ -2,7 +2,7 @@
 - name: Provisioning Dev Server
   hosts: dev10
   environment:
-    http_proxy: http://192.168.3.85:8889
-    https_proxy: http://192.168.3.85:8889
+    http_proxy: http://192.168.3.1:8889
+    https_proxy: http://192.168.3.1:8889
   roles:
   - role: 'roles/dev-server'

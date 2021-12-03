@@ -16,3 +16,6 @@ ansible_user=tying
 
 [rancher:vars]
 ansible_user=rancher
+
+[iot]
+192.168.3.12

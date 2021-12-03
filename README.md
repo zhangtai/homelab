@@ -28,9 +28,14 @@ cd ~/GitHub/homelab && doppler setup
 ansible-playbook proxmox.yml
 ```
 
-### Dev Server
+### VM servers
 
-`doppler run --command='ansible-playbook dev-server.yml'`
+```shell
+cd terraform/rke
+tf init
+doppler run --command='terraform apply'
+doppler run --command='ansible-playbook dev-server.yml'
+```
 
 ### New Container
 
@@ -67,5 +72,4 @@ doppler run --command='terraform apply'
 
 ```shell
 cd kubernetes
-
 ```
