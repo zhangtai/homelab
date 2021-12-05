@@ -1,0 +1,5 @@
+---
+- name: Install homelab services
+  hosts: minio
+  roles:
+    - role: 'roles/minio'

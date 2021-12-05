@@ -11,11 +11,14 @@ dev10 ansible_host=192.168.3.10
 [dev:vars]
 ansible_user=tying
 
-[rancher]
-192.168.3.11
+[nfs]
+192.168.3.41 ansible_user=root
 
-[rancher:vars]
-ansible_user=rancher
+[minio]
+192.168.3.42 ansible_user=root
+
+[db]
+192.168.3.43 ansible_user=root
 
 [iot]
-192.168.3.12
+192.168.3.51 ansible_user=ubuntu
