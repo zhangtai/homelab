@@ -40,12 +40,6 @@ resource "proxmox_vm_qemu" "nfs" {
   ipconfig0 = "ip=192.168.3.50/24,gw=192.168.3.1"
   cicustom = "user=local:snippets/userdata_nfs.yml"
   cloudinit_cdrom_storage = "local-lvm"
-
-  provisioner "remote-exec" {
-    inline = [
-      "ip a"
-    ]
-  }
 }
 
 resource "proxmox_vm_qemu" "iot" {
@@ -72,10 +66,4 @@ resource "proxmox_vm_qemu" "iot" {
 
   os_type = "cloud-init"
   ipconfig0 = "ip=192.168.3.51/24,gw=192.168.3.1"
-
-  provisioner "remote-exec" {
-    inline = [
-      "ip a"
-    ]
-  }
 }
