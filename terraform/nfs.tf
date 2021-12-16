@@ -10,7 +10,6 @@ resource "local_file" "userdata_nfs" {
   filename = "/var/lib/vz/snippets/userdata_nfs.yml"
 }
 
-
 resource "proxmox_vm_qemu" "nfs" {
   depends_on = [
     local_file.userdata_nfs,
@@ -72,6 +71,8 @@ resource "proxmox_vm_qemu" "iot" {
 
   os_type = "cloud-init"
   ipconfig0 = "ip=192.168.3.51/24,gw=192.168.3.1"
+  cicustom = "user=local:snippets/userdata_iot.yml"
+  cloudinit_cdrom_storage = "local-lvm"
   lifecycle {
     ignore_changes = [
       id,
