@@ -17,6 +17,7 @@ resource "proxmox_vm_qemu" "nfs" {
   name = "nfs"
   desc = "The NFS server"
   vmid = 5000
+  onboot = true
 
   agent = 1
   target_node = local.target_node

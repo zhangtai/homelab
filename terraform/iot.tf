@@ -17,6 +17,7 @@ resource "proxmox_vm_qemu" "iot" {
   name = "iot"
   desc = "The IoT server"
   vmid = 5001
+  onboot = true
 
   agent = 1
   target_node = local.target_node
