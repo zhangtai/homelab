@@ -7,7 +7,7 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url = "https://192.168.3.5:8006/api2/json"
+  pm_api_url = "https://localhost:8006/api2/json"
   pm_tls_insecure = true
 }
 

@@ -22,6 +22,21 @@
     path: ~/.ssh/id_rsa
   register: ssh_priv_key
 
+- name: Clone dotfiles
+  ansible.builtin.git:
+    repo: git@github.com:zhangtai/dotfiles.git
+    dest: /root/.dotfiles
+    accept_hostkey: yes
+  when: ssh_priv_key.stat.exists
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: /root/.dotfiles/.zshrc
+    dest: /root/.zshrc
+    owner: root
+    group: root
+    state: link
+
 - name: Generate ssh keys
   shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
   when: not ssh_priv_key.stat.exists
