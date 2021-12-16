@@ -1,33 +1,19 @@
-data "template_file" "userdata_dev" {
-  template = file("files/userdata_dev.yml")
+data "template_file" "userdata_nfs" {
+  template = file("files/userdata_nfs.yml")
   vars = {
-    hostname = "dev"
+    hostname = "nfs"
   }
 }
 
-resource "local_file" "userdata_dev" {
-  content  = data.template_file.userdata_dev.rendered
-  filename = "files/generated_userdata_dev.yml"
+resource "local_file" "userdata_nfs" {
+  content  = data.template_file.userdata_nfs.rendered
+  filename = "/var/lib/vz/snippets/userdata_nfs.yml"
 }
 
-resource "null_resource" "cloud_init_config_file_dev" {
-  count = var.vm_count
-  connection {
-    type     = "ssh"
-    user     = "${var.PVE_USER}"
-    password = "${var.PVE_PASSWORD}"
-    host     = "${var.PVE_HOST}"
-  }
-
-  provisioner "file" {
-    source      = local_file.userdata_dev.filename
-    destination = "/var/lib/vz/snippets/userdata_dev.yml"
-  }
-}
 
 resource "proxmox_vm_qemu" "nfs" {
   depends_on = [
-    null_resource.cloud_init_config_file_dev,
+    local_file.userdata_nfs,
   ]
   name = "nfs"
   desc = "The NFS server"
@@ -37,8 +23,8 @@ resource "proxmox_vm_qemu" "nfs" {
   target_node = local.target_node
   clone = local.template_image
   cores = 2
-  sockets = 2
-  memory = 8192
+  sockets = 1
+  memory = 2048
 
   bootdisk = "scsi0"
   boot = "c"
@@ -71,8 +57,8 @@ resource "proxmox_vm_qemu" "iot" {
   target_node = local.target_node
   clone = local.template_image
   cores = 2
-  sockets = 2
-  memory = 6144
+  sockets = 1
+  memory = 4096
 
   bootdisk = "scsi0"
   boot = "c"

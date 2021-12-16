@@ -21,27 +21,10 @@ cd ~/GitHub/homelab && doppler setup
 ## Proxmox server
 
 1. `cd ansible && ansible-playbook proxmox.yml`: Install basic tools on pve, download Ubuntu cloudimg file and create basic template
+1. Manual copy the generated ssh pubkey to GitHub
+1. `ansible-playbook proxmox.yml`: To install dotfiles
 
-## Homelab servers
-
-### Create each server
-
-```shell
-
-```
-
-```shell
-cd ansible
-ansible-playbook site.yml
-```
-
-
-
-## Proxmox
-
-```shell
-ansible-playbook proxmox.yml
-```
+Go to [terraform](./terraform/README.md) for provisioning servers in Proxmox
 
 ### VM servers
 
