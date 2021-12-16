@@ -47,37 +47,3 @@ resource "proxmox_vm_qemu" "nfs" {
     ]
   }
 }
-
-resource "proxmox_vm_qemu" "iot" {
-  name = "iot"
-  vmid = 5001
-
-  agent = 1
-  target_node = local.target_node
-  clone = local.template_image
-  cores = 2
-  sockets = 1
-  memory = 4096
-
-  bootdisk = "scsi0"
-  boot = "c"
-
-  disk {
-    size = "60G"
-    type = "virtio"
-    storage = local.disk_store
-    discard = "on"
-  }
-
-  os_type = "cloud-init"
-  ipconfig0 = "ip=192.168.3.51/24,gw=192.168.3.1"
-  cicustom = "user=local:snippets/userdata_iot.yml"
-  cloudinit_cdrom_storage = "local-lvm"
-  lifecycle {
-    ignore_changes = [
-      id,
-      name,
-      disk
-    ]
-  }
-}
