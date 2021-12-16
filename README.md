@@ -2,9 +2,22 @@
 
 My Homelab, with some provisioning files...
 
-## Quick steps
+## Proxmox server
 
 1. `cd ansible && ansible-playbook proxmox.yml`: Install basic tools on pve, download Ubuntu cloudimg file and create basic template
+
+## Homelab servers
+
+### Create each server
+
+```shell
+
+```
+
+```shell
+cd ansible
+ansible-playbook site.yml
+```
 
 ## Setup Doppler
 
@@ -35,20 +48,4 @@ cd terraform/rke
 tf init
 doppler run --command='terraform apply'
 doppler run --command='ansible-playbook dev-server.yml'
-```
-
-## Kubernetes
-
-### Setup nodes
-
-```shell
-cd terraform/rke
-tf init
-doppler run --command='terraform apply'
-```
-
-### Setup cluster
-
-```shell
-cd kubernetes
 ```

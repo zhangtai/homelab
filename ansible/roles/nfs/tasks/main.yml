@@ -1,0 +1,30 @@
+---
+- name: Install basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 7200
+  loop:
+    - curl
+    - vim
+    - nfs-kernel-server
+
+- name: Create data folder
+  ansible.builtin.file:
+    name: /data
+    state: directory
+    owner: nobody
+    group: nogroup
+
+- name: Copy exports file
+  ansible.builtin.copy:
+    src: files/exports
+    dest: /etc/exports
+
+- name: Enable nfs service
+  ansible.builtin.systemd:
+    name: nfs-kernel-server
+    state: started
+    enabled: yes
+    daemon_reload: yes

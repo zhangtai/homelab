@@ -25,12 +25,12 @@ resource "null_resource" "cloud_init_config_file_dev" {
   }
 }
 
-resource "proxmox_vm_qemu" "dev" {
+resource "proxmox_vm_qemu" "nfs" {
   depends_on = [
     null_resource.cloud_init_config_file_dev,
   ]
-  name = "dev"
-  desc = "The dev server"
+  name = "nfs"
+  desc = "The NFS server"
   vmid = 5000
 
   agent = 1
@@ -44,7 +44,7 @@ resource "proxmox_vm_qemu" "dev" {
   boot = "c"
 
   disk {
-    size = "80G"
+    size = "100G"
     type = "virtio"
     storage = local.disk_store
     discard = "on"
@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "dev" {
 
   os_type = "cloud-init"
   ipconfig0 = "ip=192.168.3.50/24,gw=192.168.3.1"
-  cicustom = "user=local:snippets/userdata_dev.yml"
+  cicustom = "user=local:snippets/userdata_nfs.yml"
   cloudinit_cdrom_storage = "local-lvm"
 
   provisioner "remote-exec" {

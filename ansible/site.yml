@@ -1,5 +1,10 @@
 ---
-- name: Install homelab services
+- name: Install NFS
+  hosts: nfs
+  roles:
+    - role: 'roles/nfs'
+
+- name: Install minio
   hosts: minio
   roles:
     - role: 'roles/minio'
