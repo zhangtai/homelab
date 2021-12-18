@@ -17,14 +17,30 @@
     owner: nobody
     group: nogroup
 
+- name: Create data sub-folders
+  ansible.builtin.file:
+    name: /data/{{ item }}
+    state: directory
+    owner: nobody
+    group: nogroup
+    mode: '0777'
+  loop:
+    - minio
+    - jenkins
+    - home-assistant
+    - prometheus
+
 - name: Copy exports file
   ansible.builtin.copy:
     src: files/exports
     dest: /etc/exports
 
+- name: Export FS
+  ansible.builtin.shell: exportfs -a
+
 - name: Enable nfs service
   ansible.builtin.systemd:
     name: nfs-kernel-server
-    state: started
+    state: restarted
     enabled: yes
     daemon_reload: yes

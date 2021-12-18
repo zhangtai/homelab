@@ -1,1 +1,4 @@
-/data   192.168.3.1/24(rw,sync,no_root_squash,no_subtree_check)
+/data/minio   192.168.3.1/24(rw,sync,no_subtree_check)
+/data/jenkins   192.168.3.1/24(rw,sync,no_subtree_check)
+/data/home-assistant   192.168.3.1/24(rw,sync,no_subtree_check)
+/data/prometheus   192.168.3.1/24(rw,sync,no_subtree_check)
