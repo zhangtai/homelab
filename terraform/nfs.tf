@@ -44,7 +44,8 @@ resource "proxmox_vm_qemu" "nfs" {
     ignore_changes = [
       id,
       name,
-      disk
+      disk,
+      network
     ]
   }
 }
