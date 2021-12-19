@@ -48,3 +48,6 @@
   ansible.builtin.pip:
     name: homeassistant
     virtualenv: /srv/homeassistant
+  environment:
+    HTTP_PROXY: http://192.168.3.1:8889
+    HTTPS_PROXY: http://192.168.3.1:8889

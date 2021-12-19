@@ -1,0 +1,32 @@
+---
+- name: Install basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 7200
+  loop:
+    - gpg
+    - vim
+
+- name: Copy source file of pg
+  ansible.builtin.copy:
+    src: files/pgdg.list
+    dest: /etc/apt/sources.list.d/pgdg.list
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add an apt key by id from a keyserver
+  ansible.builtin.apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Install postgresql
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 7200
+  loop:
+    - postgresql

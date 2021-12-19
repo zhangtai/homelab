@@ -6,11 +6,13 @@
     - role: 'roles/nfs'
 
 - name: Install home-assistant
+  become: yes
   hosts: home-assistant
   roles:
     - role: 'roles/home-assistant'
 
-- name: Install minio
-  hosts: minio
+- name: Install postgresql
+  become: yes
+  hosts: postgresql
   roles:
-    - role: 'roles/minio'
+    - role: 'roles/postgresql'

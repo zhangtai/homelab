@@ -14,8 +14,8 @@ ansible_user=tying
 [minio]
 192.168.3.42 ansible_user=root
 
-[db]
-192.168.3.43 ansible_user=root
+[postgresql]
+192.168.3.41 ansible_user=root
 
 [nfs]
 192.168.3.50 ansible_user=ubuntu
