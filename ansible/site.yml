@@ -16,3 +16,9 @@
   hosts: postgresql
   roles:
     - role: 'roles/postgresql'
+
+- name: Install Jenkins
+  become: yes
+  hosts: jenkins
+  roles:
+    - role: 'roles/jenkins'

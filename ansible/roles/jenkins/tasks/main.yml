@@ -1,0 +1,39 @@
+---
+- name: Install basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 7200
+  loop:
+    - gpg
+    - vim
+    - ca-certificates
+
+- name: Copy source file
+  ansible.builtin.copy:
+    src: files/jenkins.list
+    dest: /etc/apt/sources.list.d/jenkins.list
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add apt key
+  ansible.builtin.apt_key:
+    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    state: present
+  environment:
+    HTTP_PROXY: http://192.168.3.1:8889
+    HTTPS_PROXY: http://192.168.3.1:8889
+
+- name: Install Jenkins
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop:
+    - openjdk-11-jdk
+    - jenkins
+  environment:
+    HTTP_PROXY: http://192.168.3.1:8889
+    HTTPS_PROXY: http://192.168.3.1:8889
