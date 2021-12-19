@@ -20,5 +20,6 @@
 - name: Install Jenkins
   become: yes
   hosts: jenkins
+  tags: jenkins
   roles:
     - role: 'roles/jenkins'

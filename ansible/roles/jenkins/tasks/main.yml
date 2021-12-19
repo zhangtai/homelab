@@ -1,4 +1,30 @@
 ---
+- name: Make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
+
+- name: Add the user jenkins
+  ansible.builtin.user:
+    name: jenkins
+    groups: wheel
+    append: yes
+    create_home: yes
+    shell: /bin/bash
+
+- name: Upgrade apt packages
+  apt:
+    upgrade: full
+    update_cache: yes
+
 - name: Install basic packages
   apt:
     name: "{{ item }}"
@@ -20,11 +46,8 @@
 
 - name: Add apt key
   ansible.builtin.apt_key:
-    url: https://pkg.jenkins.io/debian-stable/jenkins.io.key
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
     state: present
-  environment:
-    HTTP_PROXY: http://192.168.3.1:8889
-    HTTPS_PROXY: http://192.168.3.1:8889
 
 - name: Install Jenkins
   apt:
