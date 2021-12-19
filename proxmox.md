@@ -21,14 +21,14 @@ qm clone 2002 111 --full --name iot
 ## New Container
 
 ```shell
-export PCT_ID=4000
-export PCT_HOST=lxc-dev
-export PCT_IP=192.168.3.40
+export PCT_ID=4004
+export PCT_HOST=home-assistant
+export PCT_IP=192.168.3.44
 pct create ${PCT_ID} local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz \
   --cpulimit 4 \
   --memory 2048 \
   --storage local-lvm \
-  --rootfs local-lvm:50 \
+  --rootfs local-lvm:20 \
   --ostype ubuntu \
   --ssh-public-keys /root/pubKeys/mbp.key \
   --start 1 \

@@ -1,0 +1,50 @@
+---
+- name: Install basic packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+    cache_valid_time: 7200
+  loop:
+    - python3.9
+    - python3.9-dev
+    - python3.9-venv
+    - python3-pip
+    - libffi-dev
+    - libssl-dev
+    - libjpeg-dev
+    - zlib1g-dev
+    - autoconf
+    - build-essential
+    - libopenjp2-7
+    - libtiff5
+    - libturbojpeg
+    - tzdata
+
+- name: Add the user homeassistant
+  ansible.builtin.user:
+    name: homeassistant
+    create_home: yes
+    shell: /bin/bash
+
+- name: Create project folder
+  ansible.builtin.file:
+    name: /srv/homeassistant
+    state: directory
+    owner: homeassistant
+    group: homeassistant
+
+- name: Create venv
+  become: yes
+  become_user: homeassistant
+  ansible.builtin.shell: python3.9 -m venv .
+  args:
+    chdir: /srv/homeassistant
+    creates: bin/
+
+- name: Install homeassistant
+  become: yes
+  become_user: homeassistant
+  ansible.builtin.pip:
+    name: homeassistant
+    virtualenv: /srv/homeassistant

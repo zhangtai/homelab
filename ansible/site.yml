@@ -5,6 +5,11 @@
   roles:
     - role: 'roles/nfs'
 
+- name: Install home-assistant
+  hosts: home-assistant
+  roles:
+    - role: 'roles/home-assistant'
+
 - name: Install minio
   hosts: minio
   roles:
