@@ -25,3 +25,10 @@
   tags: jenkins
   roles:
     - role: 'roles/jenkins'
+
+- name: Install Jenkins agent
+  become: yes
+  hosts: jenkins-agent
+  tags: jenkins-agent
+  roles:
+    - role: 'roles/jenkins-agent'

@@ -20,6 +20,9 @@ ansible_user=tying
 [jenkins]
 192.168.3.43 ansible_user=root
 
+[jenkins-agent]
+192.168.3.45 ansible_user=root
+
 [nfs]
 192.168.3.50 ansible_user=ubuntu
 
