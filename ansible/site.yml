@@ -8,6 +8,7 @@
 - name: Install home-assistant
   become: yes
   hosts: home-assistant
+  tags: home-assistant
   roles:
     - role: 'roles/home-assistant'
 

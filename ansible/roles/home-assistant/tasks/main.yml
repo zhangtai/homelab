@@ -21,6 +21,11 @@
     - libturbojpeg
     - tzdata
 
+- name: Copy service file
+  ansible.builtin.copy:
+    src: files/home-assistant.service
+    dest: /etc/systemd/system/home-assistant@homeassistant.service
+
 - name: Add the user homeassistant
   ansible.builtin.user:
     name: homeassistant
@@ -51,3 +56,10 @@
   environment:
     HTTP_PROXY: http://192.168.3.1:8889
     HTTPS_PROXY: http://192.168.3.1:8889
+
+- name: Start home-assistant service
+  ansible.builtin.systemd:
+    name: home-assistant@homeassistant
+    state: started
+    daemon_reload: yes
+    enabled: yes
