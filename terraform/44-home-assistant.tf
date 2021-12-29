@@ -1,6 +1,6 @@
-resource "proxmox_lxc" "home-assistant" {
+resource "proxmox_lxc" "home_assistant" {
   target_node  = "pve"
-  hostname     = "home-assistant"
+  hostname     = "homeassistant"
   vmid         = 4044
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   ostype       = "ubuntu"
