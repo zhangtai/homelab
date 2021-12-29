@@ -1,0 +1,45 @@
+---
+- name: Add apt source list for cloudflare
+  ansible.builtin.copy:
+    src: files/cloudflare-main.list
+    dest: /etc/apt/sources.list.d/cloudflare-main.list
+
+- name: Add apt key of cloudflare
+  ansible.builtin.apt_key:
+    url: https://pkg.cloudflare.com/cloudflare-main.gpg
+    state: present
+
+- name: Install cloudflared package
+  ansible.builtin.apt:
+    update_cache: yes
+    pkg:
+      - cloudflared
+
+- name: Create cloudflared config folders
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - /etc/cloudflared
+    - ~/.cloudflared
+
+- name: Copy cloudflared configs
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: '0755'
+  loop:
+    - src: templates/cloudflared-config.yaml
+      dest: /etc/cloudflared/config.yml
+    - src: templates/cloudflare-creds.json
+      dest: ~/.cloudflared/{{ TUNNEL_ID }}.json
+
+- name: Install cloudflared service
+  ansible.builtin.shell: cloudflared service install
+
+- name: Start cloudflared
+  ansible.builtin.systemd:
+    name: cloudflared
+    enabled: yes
+    state: started

@@ -69,3 +69,6 @@
 - name: Create stage 1 template
   ansible.builtin.include_tasks: create_stage_1_image.yml
   when: ci_template_exists.rc == 2
+
+- name: Setup cloudflare source and install cloudflared
+  ansible.builtin.include_tasks: install_cloudflared.yml
