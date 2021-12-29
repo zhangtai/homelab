@@ -16,7 +16,7 @@ resource "proxmox_vm_qemu" "nfs" {
   ]
   name = "nfs"
   desc = "The NFS server"
-  vmid = 5000
+  vmid = 5051
   onboot = true
 
   agent = 1
@@ -37,7 +37,7 @@ resource "proxmox_vm_qemu" "nfs" {
   }
 
   os_type = "cloud-init"
-  ipconfig0 = "ip=192.168.3.50/24,gw=192.168.3.1"
+  ipconfig0 = "ip=192.168.3.51/24,gw=192.168.3.1"
   cicustom = "user=local:snippets/userdata_nfs.yml"
   cloudinit_cdrom_storage = "local-lvm"
   lifecycle {
