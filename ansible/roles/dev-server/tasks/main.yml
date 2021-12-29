@@ -48,7 +48,6 @@
       - python3-venv
       - python3-pip
       - nfs-common
-      - cloudflared
 
 - name: Check existence of default ssh priv key
   stat:
@@ -67,31 +66,12 @@
   loop:
     - ~/.config/pip
     - ~/.config/code-server
-    - ~/.cloudflared
 
 - name: Copy code-server configuration
   template:
     src: files/code-server-config.yaml
     dest: ~/.config/code-server/config.yaml
     mode: '0644'
-
-- name: Create cloudflare config folder
-  file:
-    path: /etc/cloudflared
-    state: directory
-    mode: '755'
-
-- name: Copy cloudflared sys config
-  become: true
-  template:
-    src: files/cloudflared-config.yaml
-    dest: /etc/cloudflared/config.yml
-    mode: '0755'
-
-- name: Copy cloudflared usr config
-  template:
-    src: files/cloudflare-creds.json
-    dest: "/home/tying/.cloudflared/{{ TUNNEL_ID }}.json"
 
 - name: Install pip tools
   pip:
@@ -130,13 +110,6 @@
   become: yes
   service:
     name: "code-server@{{ ansible_user }}"
-    enabled: yes
-    state: started
-
-- name: Start cloudflared
-  become: yes
-  service:
-    name: cloudflared
     enabled: yes
     state: started
 
