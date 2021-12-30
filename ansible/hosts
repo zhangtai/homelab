@@ -14,7 +14,7 @@ ansible_user=tying
 [postgresql]
 192.168.3.41 ansible_user=root
 
-[jenkins]
+[jenkins-controller]
 192.168.3.42 ansible_user=root
 
 [jenkins-agent]
