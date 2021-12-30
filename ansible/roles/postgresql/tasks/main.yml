@@ -1,7 +1,6 @@
 ---
-tasks:
 - name: Install basic packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: yes
@@ -24,7 +23,7 @@ tasks:
     state: present
 
 - name: Install postgresql
-  apt:
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
     update_cache: yes

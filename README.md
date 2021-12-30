@@ -29,8 +29,6 @@ Go to [terraform](./terraform/README.md) for provisioning servers in Proxmox
 ### VM servers
 
 ```shell
-cd terraform/rke
-tf init
-doppler run --command='terraform apply'
-doppler run --command='ansible-playbook dev-server.yml'
+cd ansible
+doppler run --command='ansible-playbook site.yml'
 ```
