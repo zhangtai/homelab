@@ -21,6 +21,9 @@
     - libturbojpeg
     - tzdata
     - ffmpeg
+  environment:
+    HTTP_PROXY: http://192.168.3.1:8889
+    HTTPS_PROXY: http://192.168.3.1:8889
 
 - name: Copy service file
   ansible.builtin.copy:
