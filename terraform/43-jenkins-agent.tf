@@ -1,8 +1,8 @@
-resource "proxmox_lxc" "jenkins-agent" {
+resource "proxmox_lxc" "jenkins_agent" {
   target_node  = "pve"
   hostname     = "jenkins-agent"
   vmid         = 4043
-  ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
+  ostemplate   = local.lxc_image
   ostype       = "ubuntu"
   unprivileged = true
   start        = false

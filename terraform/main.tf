@@ -25,4 +25,5 @@ locals {
   disk_store = "local-lvm"
   target_node = "pve"
   template_image = "ubuntu-2004-stage1-v2"
+  lxc_image = "local:vztmpl/ubuntu-20211230-2.tar.xz"
 }
