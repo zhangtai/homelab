@@ -42,4 +42,4 @@
   ansible.builtin.systemd:
     name: cloudflared
     enabled: yes
-    state: started
+    state: restarted

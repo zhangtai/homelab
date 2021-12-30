@@ -7,6 +7,8 @@ ingress:
   #   noTLSVerify: true
   - hostname: "{{ DOMAIN_CODE_SERVER }}"
     service: "http://192.168.3.10:12345"
+  - hostname: "{{ DOMAIN_JENKINS }}"
+    service: "http://192.168.3.42:8080"
   - hostname: "{{ DOMAIN_PVE }}"
     service: "https://127.0.0.1:8006"
     originRequest:
