@@ -7,6 +7,8 @@ DOMAIN_CODE_SERVER: "{{ lookup('env','DOMAIN_CODE_SERVER') }}"
 TARGET_CODE_SERVER: "{{ lookup('env','TARGET_CODE_SERVER') }}"
 DOMAIN_PVE: "{{ lookup('env','DOMAIN_PVE') }}"
 TARGET_PVE: "{{ lookup('env','TARGET_PVE') }}"
+DOMAIN_JENKINS: "{{ lookup('env','DOMAIN_JENKINS') }}"
+DOMAIN_HOME_ASSISTANT: "{{ lookup('env','DOMAIN_HOME_ASSISTANT') }}"
 
 ACCOUNT_TAG: "{{ lookup('env','ACCOUNT_TAG') }}"
 TUNNEL_SECRET: "{{ lookup('env','TUNNEL_SECRET') }}"
