@@ -1,14 +1,4 @@
 ---
-- name: Install basic packages
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-    cache_valid_time: 7200
-  loop:
-    - gpg
-    - vim
-
 - name: Copy source file of pg
   ansible.builtin.copy:
     src: files/pgdg.list

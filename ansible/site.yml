@@ -19,12 +19,12 @@
   roles:
     - role: 'roles/postgresql'
 
-- name: Install Jenkins
+- name: Install Jenkins controller
   become: yes
-  hosts: jenkins
-  tags: jenkins
+  hosts: jenkins-controller
+  tags: jenkins-controller
   roles:
-    - role: 'roles/jenkins'
+    - role: 'roles/jenkins-controller'
 
 - name: Install Jenkins agent
   become: yes
