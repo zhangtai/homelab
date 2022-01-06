@@ -39,3 +39,8 @@
     name: postgresql
     state: restarted
     enabled: yes
+
+- name: Change postgres password
+  ansible.builtin.shell: |
+    psql -U postgres -c "ALTER USER postgres PASSWORD '{{ PG_PASSWORD }}'"
+  become_user: postgres
