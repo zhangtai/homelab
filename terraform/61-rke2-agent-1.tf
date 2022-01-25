@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "rke2_agent_1" {
   depends_on = [
     local_file.userdata_rke2_agent_1,
   ]
-  name = "rke-agent-1"
+  name = "rke2-agent-1"
   desc = "The rke2 agent"
   vmid = 6061
   onboot = true
