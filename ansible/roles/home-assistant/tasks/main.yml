@@ -6,10 +6,6 @@
     update_cache: yes
     cache_valid_time: 7200
   loop:
-    - python3.9
-    - python3.9-dev
-    - python3.9-venv
-    - python3-pip
     - libffi-dev
     - libssl-dev
     - libjpeg-dev
@@ -20,6 +16,10 @@
     - libtiff5
     - libturbojpeg
     - tzdata
+    - ffmpeg
+  environment:
+    HTTP_PROXY: http://192.168.3.1:8889
+    HTTPS_PROXY: http://192.168.3.1:8889
 
 - name: Copy service file
   ansible.builtin.copy:

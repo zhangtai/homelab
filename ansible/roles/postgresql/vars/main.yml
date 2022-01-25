@@ -1,0 +1,2 @@
+---
+PG_PASSWORD: "{{ lookup('env','PG_PASSWORD') }}"

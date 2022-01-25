@@ -30,5 +30,5 @@ Go to [terraform](./terraform/README.md) for provisioning servers in Proxmox
 
 ```shell
 cd ansible
-doppler run --command='ansible-playbook site.yml'
+doppler run --command='ansible-playbook homelab.yml --tags=postgresql'
 ```

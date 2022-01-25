@@ -1,24 +1,24 @@
 ---
 - name: Remove pve-enterprise.list file
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: absent
   loop:
     - /etc/apt/sources.list.d/pve-enterprise.list
 
 - name: Install apt packages
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
+    cache_valid_time: 3600
     pkg:
       - git
       - zip
       - unzip
       - vim
       - curl
-      - unzip
 
 - name: Check existence of default ssh priv key
-  stat:
+  ansible.builtin.stat:
     path: ~/.ssh/id_rsa
   register: ssh_priv_key
 
@@ -38,22 +38,22 @@
     state: link
 
 - name: Generate ssh keys
-  shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
+  ansible.builtin.shell: ssh-keygen -q -t rsa -b 4096 -N '' -f ~/.ssh/id_rsa
   when: not ssh_priv_key.stat.exists
 
 - name: Check existence of ubuntu cloud image
-  stat:
+  ansible.builtin.stat:
     path: "{{ ubuntu_cloud_image_path }}"
   register: ubuntu_cloud_image
 
 - name: Download focal-server-cloudimg-amd64.img
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ ubuntu_cloudimg_link }}"
     dest: "{{ ubuntu_cloud_image_path }}"
   when: not ubuntu_cloud_image.stat.exists or force_download_cloudimg
 
 - name: Verify if stage 0 template exists
-  shell: 'qm status {{ ubuntu_2004_stage_0_id }}'
+  ansible.builtin.shell: 'qm status {{ ubuntu_2004_stage_0_id }}'
   register: vm_id_exists
   ignore_errors: yes
 

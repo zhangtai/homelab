@@ -1,9 +1,4 @@
 ---
-- name: Upgrade apt packages
-  apt:
-    upgrade: full
-    update_cache: yes
-
 - name: Install basic packages
   apt:
     name: "{{ item }}"
@@ -11,7 +6,4 @@
     update_cache: yes
     cache_valid_time: 7200
   loop:
-    - gpg
-    - vim
-    - ca-certificates
     - openjdk-11-jdk

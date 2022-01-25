@@ -1,14 +1,4 @@
 ---
-- name: Install basic packages
-  ansible.builtin.apt:
-    name: "{{ item }}"
-    state: present
-    update_cache: yes
-    cache_valid_time: 7200
-  loop:
-    - gpg
-    - vim
-
 - name: Copy source file of pg
   ansible.builtin.copy:
     src: files/pgdg.list
@@ -49,3 +39,8 @@
     name: postgresql
     state: restarted
     enabled: yes
+
+- name: Change postgres password
+  ansible.builtin.shell: |
+    psql -U postgres -c "ALTER USER postgres PASSWORD '{{ PG_PASSWORD }}'"
+  become_user: postgres

@@ -12,6 +12,7 @@
 - name: Install cloudflared package
   ansible.builtin.apt:
     update_cache: yes
+    cache_valid_time: 3600
     pkg:
       - cloudflared
 
@@ -28,12 +29,17 @@
   ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
-    mode: '0755'
+    mode: "{{ item.mode }}"
   loop:
     - src: templates/cloudflared-config.yaml
       dest: /etc/cloudflared/config.yml
+      mode: '0755'
     - src: templates/cloudflare-creds.json
       dest: ~/.cloudflared/{{ TUNNEL_ID }}.json
+      mode: '0600'
+    - src: templates/cloudflare-cert.txt
+      dest: ~/.cloudflared/cert.pem
+      mode: '0600'
 
 - name: Install cloudflared service
   ansible.builtin.shell: cloudflared service install
