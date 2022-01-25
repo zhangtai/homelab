@@ -5,7 +5,7 @@ resource "proxmox_lxc" "postgresql" {
   ostemplate   = local.lxc_image
   ostype       = "ubuntu"
   unprivileged = true
-  start        = true
+  start        = false
   onboot       = true
 
   ssh_public_keys = file("files/public_keys.txt")

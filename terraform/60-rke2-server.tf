@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "rke2_server" {
   depends_on = [
     local_file.userdata_rke2_server,
   ]
-  name = "nfs"
+  name = "rke2-server"
   desc = "The rke2 server"
   vmid = 6060
   onboot = true

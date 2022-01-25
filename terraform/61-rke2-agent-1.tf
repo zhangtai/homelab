@@ -7,14 +7,14 @@ data "template_file" "userdata_rke2_agent_1" {
 
 resource "local_file" "userdata_rke2_agent_1" {
   content  = data.template_file.userdata_rke2_agent_1.rendered
-  filename = "/var/lib/vz/snippets/userdata_rke2_agent.yml"
+  filename = "/var/lib/vz/snippets/userdata_rke2_agent_1.yml"
 }
 
 resource "proxmox_vm_qemu" "rke2_agent_1" {
   depends_on = [
     local_file.userdata_rke2_agent_1,
   ]
-  name = "nfs"
+  name = "rke-agent-1"
   desc = "The rke2 agent"
   vmid = 6061
   onboot = true
