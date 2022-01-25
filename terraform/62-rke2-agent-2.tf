@@ -38,7 +38,7 @@ resource "proxmox_vm_qemu" "rke2_agent_2" {
 
   os_type = "cloud-init"
   ipconfig0 = "ip=192.168.3.62/24,gw=192.168.3.1"
-  cicustom = "user=local:snippets/userdata_rke2_agent.yml"
+  cicustom = "user=local:snippets/userdata_rke2_agent_2.yml"
   cloudinit_cdrom_storage = "local-lvm"
   lifecycle {
     ignore_changes = [
