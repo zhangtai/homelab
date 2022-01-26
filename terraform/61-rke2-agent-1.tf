@@ -23,14 +23,14 @@ resource "proxmox_vm_qemu" "rke2_agent_1" {
   target_node = local.target_node
   clone = local.template_image
   cores = 2
-  sockets = 1
-  memory = 4096
+  sockets = 2
+  memory = 8192
 
   bootdisk = "scsi0"
   boot = "c"
 
   disk {
-    size = "60G"
+    size = "100G"
     type = "virtio"
     storage = local.disk_store
     discard = "on"

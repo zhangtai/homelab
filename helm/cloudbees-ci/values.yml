@@ -1,6 +1,6 @@
 OperationsCenter:
   Name: cjoc
-  HostName: rancher.lan
+  HostName: jenkins.lan
   Protocol: https
 Agents:
   Enabled: true
@@ -8,4 +8,4 @@ Agents:
     Enabled: true
     Create: true
 Persistence:
-  StorageClass: local-path
+  StorageClass: longhorn
