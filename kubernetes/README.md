@@ -26,6 +26,14 @@ EOF'
 sudo systemctl start rke2-agent.service
 ```
 
+https://docs.rke2.io/advanced/#configuring-an-http-proxy
+
+```shell /etc/default/rke2-agent
+CONTAINERD_HTTP_PROXY=http://192.168.3.1:8889
+CONTAINERD_HTTPS_PROXY=http://192.168.3.1:8889
+CONTAINERD_NO_PROXY=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,.svc,.cluster.local
+```
+
 ## Access
 
 https://docs.rke2.io/cluster_access/

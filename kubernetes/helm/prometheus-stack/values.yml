@@ -1,0 +1,36 @@
+alertmanager:
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager.lan
+  alertmanagerSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 30Gi
+
+grafana:
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.lan
+
+prometheus:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.lan
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: 
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
