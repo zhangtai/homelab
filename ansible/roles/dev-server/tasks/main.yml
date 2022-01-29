@@ -40,13 +40,7 @@
     pkg:
       - git
       - zsh
-      - zip
-      - unzip
-      - vim
       - curl
-      - unzip
-      - python3-venv
-      - python3-pip
       - nfs-common
 
 - name: Check existence of default ssh priv key
@@ -66,18 +60,6 @@
   loop:
     - ~/.config/pip
     - ~/.config/code-server
-
-- name: Copy code-server configuration
-  template:
-    src: files/code-server-config.yaml
-    dest: ~/.config/code-server/config.yaml
-    mode: '0644'
-
-- name: Install pip tools
-  pip:
-    name:
-      - ansible
-      - docker-compose
 
 - name: Check code-server service status
   become: true
