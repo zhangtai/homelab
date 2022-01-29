@@ -30,7 +30,7 @@ resource "proxmox_vm_qemu" "rke2_agent_1" {
   boot = "c"
 
   disk {
-    size = "100G"
+    size = "160G"
     type = "virtio"
     storage = local.disk_store
     discard = "on"
