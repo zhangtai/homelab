@@ -18,12 +18,14 @@ grafana:
     enabled: true
     hosts:
       - grafana.lan
+      - grafana.zhangt.ai
 
 prometheus:
   ingress:
     enabled: true
     hosts:
       - prometheus.lan
+      - prometheus.zhangt.ai
   prometheusSpec:
     storageSpec:
       volumeClaimTemplate:

@@ -3,6 +3,7 @@ alertmanager:
     enabled: true
     hosts:
       - alertmanager.lan
+      - alertmanager.zhangt.ai
   persistentVolume:
     storageClass: longhorn
     size: 5Gi
@@ -12,6 +13,7 @@ server:
     enabled: true
     hosts:
       - prometheus.lan
+      - prometheus.zhangt.ai
   persistentVolume:
     size: 20Gi
     storageClass: longhorn
