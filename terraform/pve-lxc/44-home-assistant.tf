@@ -1,7 +1,7 @@
 resource "proxmox_lxc" "home_assistant" {
   target_node  = "pve"
   hostname     = "home-assistant"
-  vmid         = 4044
+  vmid         = 1044
   ostemplate   = local.lxc_image
   ostype       = "ubuntu"
   unprivileged = true
@@ -11,7 +11,7 @@ resource "proxmox_lxc" "home_assistant" {
   ssh_public_keys = file("files/public_keys.txt")
 
   rootfs {
-    storage = "local-lvm"
+    storage = local.disk_store
     size    = "20G"
   }
 

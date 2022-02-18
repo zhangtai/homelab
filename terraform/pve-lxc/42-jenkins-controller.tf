@@ -1,7 +1,7 @@
-resource "proxmox_lxc" "jenkins_agent" {
+resource "proxmox_lxc" "jenkins_controller" {
   target_node  = "pve"
-  hostname     = "jenkins-agent"
-  vmid         = 4043
+  hostname     = "jenkins-controller"
+  vmid         = 1042
   ostemplate   = local.lxc_image
   ostype       = "ubuntu"
   unprivileged = true
@@ -10,8 +10,10 @@ resource "proxmox_lxc" "jenkins_agent" {
 
   ssh_public_keys = file("files/public_keys.txt")
 
+  memory       = 4096
+
   rootfs {
-    storage = "local-lvm"
+    storage = local.disk_store
     size    = "30G"
   }
 
@@ -19,7 +21,7 @@ resource "proxmox_lxc" "jenkins_agent" {
     name   = "eth0"
     bridge = "vmbr0"
     gw     = "192.168.3.1"
-    ip     = "192.168.3.43/24"
+    ip     = "192.168.3.42/24"
     ip6    = "auto"
   }
 }

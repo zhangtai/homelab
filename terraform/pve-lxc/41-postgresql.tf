@@ -1,7 +1,7 @@
 resource "proxmox_lxc" "postgresql" {
   target_node  = "pve"
   hostname     = "postgresql"
-  vmid         = 4041
+  vmid         = 1041
   ostemplate   = local.lxc_image
   ostype       = "ubuntu"
   unprivileged = true
@@ -11,7 +11,7 @@ resource "proxmox_lxc" "postgresql" {
   ssh_public_keys = file("files/public_keys.txt")
 
   rootfs {
-    storage = "local-lvm"
+    storage = local.disk_store
     size    = "30G"
   }
 
