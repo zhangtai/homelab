@@ -17,22 +17,3 @@ brew install dopplerhq/cli/doppler
 doppler login
 cd ~/GitHub/homelab && doppler setup
 ```
-
-## Proxmox server
-
-1. `cd ansible && doppler run --command='ansible-playbook proxmox.yml'`: Install basic tools on pve, download Ubuntu cloudimg file and create basic template
-1. Manual copy the generated ssh pubkey to GitHub
-1. `doppler run --command='ansible-playbook proxmox.yml'`: To install dotfiles
-
-Go to [terraform](./terraform/README.md) for provisioning servers in Proxmox
-
-### VM servers
-
-```shell
-cd ansible
-doppler run --command='ansible-playbook homelab.yml --tags=postgresql'
-```
-
-### RKE2
-
-[[kubernetes/README.md]]
