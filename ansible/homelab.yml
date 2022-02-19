@@ -2,6 +2,7 @@
 - name: Install NFS
   hosts: nfs
   become: yes
+  tags: nfs
   roles:
     - role: 'roles/nfs'
 
