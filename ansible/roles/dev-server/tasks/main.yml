@@ -63,15 +63,15 @@
 
 - name: Check code-server service status
   become: true
-  shell: "systemctl status code-server@{{ ansible_user }}"
+  ansible.builtin.shell: "systemctl status code-server@{{ ansible_user }}"
   register: code_server_status
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Check code-server version
   become: true
-  shell: code-server --version | cut -d ' ' -f 1
+  ansible.builtin.shell: code-server --version | cut -d ' ' -f 1
   register: code_server_version
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: Print code-server version
   debug:
@@ -89,7 +89,7 @@
   when: code_server_status.rc == 4
 
 - name: Start code-server
-  become: yes
+  become: true
   service:
     name: "code-server@{{ ansible_user }}"
     enabled: yes
@@ -118,4 +118,4 @@
     state: link
 
 - name: Init zshrc
-  shell: "zsh ~/.zshrc"
+  ansible.builtin.shell: "zsh ~/.zshrc"
